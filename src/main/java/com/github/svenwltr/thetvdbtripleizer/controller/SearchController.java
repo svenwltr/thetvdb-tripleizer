@@ -16,7 +16,6 @@ import com.github.svenwltr.thetvdbtripleizer.thetvdb.TvdbApiService;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.vocabulary.VCARD;
 
 @RestController
 @RequestMapping("/resources/{query}")
@@ -27,33 +26,6 @@ public class SearchController {
 
 	public final static String TVDB_NS = "http://localhost:8080/resources/";
 	public final static String TVDB_ID_NS = "http://localhost:8080/resources/id/";
-
-	@RequestMapping(value = "test/", method = RequestMethod.GET)
-	public void test(@PathVariable("query") String query,
-			HttpServletResponse response) throws IOException {
-		// some definitions
-		String personURI = "http://somewhere/JohnSmith";
-		String givenName = "John";
-		String familyName = "Smith";
-		String fullName = givenName + " " + familyName;
-
-		// create an empty Model
-		Model model = ModelFactory.createDefaultModel();
-
-		// create the resource
-		// and add the properties cascading style
-		Resource johnSmith = model
-				.createResource(personURI)
-				.addProperty(VCARD.FN, fullName)
-				.addProperty(
-						VCARD.N,
-						model.createResource()
-								.addProperty(VCARD.Given, givenName)
-								.addProperty(VCARD.Family, familyName));
-
-		model.write(response.getOutputStream(), "TURTLE");
-
-	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	public void search(@PathVariable("query") String query,
@@ -77,7 +49,7 @@ public class SearchController {
 
 		}
 
-		model.write(response.getOutputStream(), "N-TRIPLE");
+		model.write(response.getOutputStream(), "TURTLE");
 
 	}
 }
