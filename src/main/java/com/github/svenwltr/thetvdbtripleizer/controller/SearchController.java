@@ -35,7 +35,7 @@ public class SearchController {
 
 		Resource queryResource = model.createResource(TVDB_NS + query);
 
-		for (String id : tvdbApi.findIds(query)) {
+		for (String id : tvdbApi.search(query)) {
 			TvShow show = tvdbApi.findShow(id);
 
 			Resource showResource = model.createResource(TVDB_ID_NS + id);

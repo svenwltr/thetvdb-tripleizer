@@ -12,6 +12,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class TvdbApiService {
 
+	protected TvdbApiService() {
+	
+	}
+
 	private WebTarget dynamicInterface(String path) {
 		Client client = ClientBuilder.newClient();
 		return client.target("http://thetvdb.com/api/").path(path);
@@ -23,26 +27,16 @@ public class TvdbApiService {
 
 	}
 
-	protected TvdbApiService() {
-
-	}
-
-	protected ApiResponse search(String query) {
+	public List<String> search(String query) {
 		ApiResponse searchResponse = dynamicInterface("GetSeries.php")
 				.queryParam("seriesname", query).request()
 				.get(ApiResponse.class);
+		
+		List<String> idList = new ArrayList<>();
+		for(TvShow show : searchResponse.series)
+			idList.add(show.id);
 
-		return searchResponse;
-
-	}
-
-	public List<String> findIds(String query) {
-		List<String> ids = new ArrayList<>();
-
-		for (TvShow show : search(query).series)
-			ids.add(show.id);
-
-		return ids;
+		return idList;
 
 	}
 
