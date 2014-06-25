@@ -33,6 +33,8 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${version.spring}</version>
 		</dependency>
+
+		<!-- Servlet dependencies -->
 		<dependency>
 			<groupId>org.eclipse.jetty.orbit</groupId>
 			<artifactId>javax.servlet</artifactId>
@@ -43,6 +45,22 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
+		</dependency>
+
+		<!-- RDF dependencies -->
+		<dependency>
+			<groupId>org.apache.jena</groupId>
+			<artifactId>jena-core</artifactId>
+			<version>2.11.2</version>
+		</dependency>
+
+		<!-- TheTVDB API dependencies <dependency> <groupId>org.apache.httpcomponents</groupId> 
+			<artifactId>httpclient</artifactId> <version>4.3.4</version> </dependency> -->
+
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>2.9.1</version>
 		</dependency>
 	</dependencies>
 	<build>
