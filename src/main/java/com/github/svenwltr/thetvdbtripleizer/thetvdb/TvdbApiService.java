@@ -14,16 +14,20 @@ import javax.xml.bind.Unmarshaller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.github.svenwltr.thetvdbtripleizer.thetvdb.TvdbCache.CacheItem;
+import com.github.svenwltr.thetvdbtripleizer.bouncer.BouncerService;
+import com.github.svenwltr.thetvdbtripleizer.cache.CacheItem;
+import com.github.svenwltr.thetvdbtripleizer.cache.TvdbCacheService;
 
 @Service
 public class TvdbApiService {
 
-	private final TvdbCache cache;
+	private final TvdbCacheService cache;
+	private final BouncerService bouncer;
 
 	@Autowired
-	protected TvdbApiService(TvdbCache cache) {
+	protected TvdbApiService(TvdbCacheService cache, BouncerService bouncer) {
 		this.cache = cache;
+		this.bouncer = bouncer;
 
 	}
 
@@ -43,6 +47,7 @@ public class TvdbApiService {
 		String xml;
 
 		if (item == null) {
+			bouncer.lineUp();
 			xml = target.request().get(String.class);
 			cache.store(target, xml);
 
