@@ -18,7 +18,7 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
 
 @RestController
-@RequestMapping("/resources/{query}")
+@RequestMapping("/resources")
 public class SearchController {
 
 	@Autowired
@@ -27,7 +27,7 @@ public class SearchController {
 	public final static String TVDB_NS = "http://localhost:8080/resources/";
 	public final static String TVDB_ID_NS = "http://localhost:8080/resources/id/";
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value = "/{query}", method = RequestMethod.GET)
 	public void search(@PathVariable("query") String query,
 			HttpServletResponse response) throws IOException {
 
@@ -52,4 +52,22 @@ public class SearchController {
 		model.write(response.getOutputStream(), "TURTLE");
 
 	}
+
+	@RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
+	public void id(@PathVariable("id") String id, HttpServletResponse response)
+			throws IOException {
+
+		Model model = ModelFactory.createDefaultModel();
+
+		TvShow show = tvdbApi.findShow(id);
+
+		Resource showResource = model.createResource(TVDB_ID_NS + id);
+		showResource.addProperty(TvdbOntology.labelProperty, show.name);
+		showResource.addProperty(TvdbOntology.ratingProperty, show.rating);
+		showResource.addProperty(TvdbOntology.airDateProperty, show.firstAired);
+
+		model.write(response.getOutputStream(), "TURTLE");
+
+	}
+
 }
