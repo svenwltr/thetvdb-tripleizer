@@ -53,8 +53,10 @@ public class BouncerService {
 					long next = counter.takeFirst();
 					long wait = next - now + (WATCH_INTERVAL * MS_TO_SECONDS);
 
-					if (wait > 0)
-						Thread.sleep(wait);
+					if(wait < 0)
+						wait = (WATCH_INTERVAL * 1000) / REQUESTS_PER_INTERVAL;
+					
+					Thread.sleep(wait);
 
 				}
 
