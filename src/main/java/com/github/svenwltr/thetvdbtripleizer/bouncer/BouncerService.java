@@ -17,7 +17,7 @@ public class BouncerService {
 	private final Thread cleaner;
 
 	protected BouncerService() {
-		int limit = (int) (REQUESTS_PER_INTERVAL-1);
+		int limit = (int) (REQUESTS_PER_INTERVAL);
 		counter = new LinkedBlockingDeque<>(limit);
 		cleaner = new Thread(new Cleaner());
 		cleaner.start();
