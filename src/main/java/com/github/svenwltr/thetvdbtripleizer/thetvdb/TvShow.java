@@ -16,6 +16,6 @@ public class TvShow {
 	public String firstAired;
 
 	@XmlElement(name = "Rating")
-	public String rating;
+	public double rating;
 
 }

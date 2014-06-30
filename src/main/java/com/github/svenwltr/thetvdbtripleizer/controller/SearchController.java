@@ -44,7 +44,7 @@ public class SearchController {
 
 			queryResource.addProperty(Ontology.matchesProperty, showResource);
 			queryResource.addProperty(Ontology.labelProperty, show.name);
-			queryResource.addProperty(Ontology.ratingProperty, show.rating);
+			queryResource.addLiteral(Ontology.ratingProperty, show.rating);
 			queryResource.addProperty(Ontology.airDateProperty, show.firstAired);
 
 			model.write(response.getOutputStream(), "TURTLE");
@@ -62,7 +62,7 @@ public class SearchController {
 
 		Resource showResource = model.createResource(TVDB_ID_NS + id);
 		showResource.addProperty(Ontology.labelProperty, show.name);
-		showResource.addProperty(Ontology.ratingProperty, show.rating);
+		showResource.addLiteral(Ontology.ratingProperty, show.rating);
 		showResource.addProperty(Ontology.airDateProperty, show.firstAired);
 
 		model.write(response.getOutputStream(), "TURTLE");
