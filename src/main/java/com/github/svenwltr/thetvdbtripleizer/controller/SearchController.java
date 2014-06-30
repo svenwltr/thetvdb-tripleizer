@@ -1,6 +1,7 @@
 package com.github.svenwltr.thetvdbtripleizer.controller;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +31,8 @@ public class SearchController {
 	@RequestMapping(value = "/resources/{query}", method = RequestMethod.GET)
 	public void search(@PathVariable("query") String query,
 			HttpServletResponse response) throws IOException {
+		
+		query = URLDecoder.decode(query, "UTF-8");
 
 		TvShow show = tvdbApi.findShow(query);
 
