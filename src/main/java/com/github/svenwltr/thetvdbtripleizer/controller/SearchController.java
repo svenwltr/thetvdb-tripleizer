@@ -30,25 +30,25 @@ public class SearchController {
 	public void search(@PathVariable("query") String query,
 			HttpServletResponse response) throws IOException {
 
-		Model model = ModelFactory.createDefaultModel();
+		TvShow show = tvdbApi.findShow(query);
 
-		Resource queryResource = model.createResource(TVDB_NS + query);
+		if (show == null) {
+			response.setStatus(404);
+			
+		} else {
 
-		for (String id : tvdbApi.search(query)) {
-			TvShow show = tvdbApi.findShow(id);
+			Model model = ModelFactory.createDefaultModel();
 
-			Resource showResource = model.createResource(TVDB_ID_NS + id);
+			Resource queryResource = model.createResource(TVDB_NS + query);
+			Resource showResource = model.createResource(TVDB_ID_NS + show.id);
 
-			queryResource.addProperty(Ontology.matchesProperty,
-					showResource);
+			queryResource.addProperty(Ontology.matchesProperty, showResource);
 			showResource.addProperty(Ontology.labelProperty, show.name);
 			showResource.addProperty(Ontology.ratingProperty, show.rating);
-			showResource.addProperty(Ontology.airDateProperty,
-					show.firstAired);
+			showResource.addProperty(Ontology.airDateProperty, show.firstAired);
 
+			model.write(response.getOutputStream(), "TURTLE");
 		}
-
-		model.write(response.getOutputStream(), "TURTLE");
 
 	}
 
@@ -58,7 +58,7 @@ public class SearchController {
 
 		Model model = ModelFactory.createDefaultModel();
 
-		TvShow show = tvdbApi.findShow(id);
+		TvShow show = tvdbApi.getShow(id);
 
 		Resource showResource = model.createResource(TVDB_ID_NS + id);
 		showResource.addProperty(Ontology.labelProperty, show.name);

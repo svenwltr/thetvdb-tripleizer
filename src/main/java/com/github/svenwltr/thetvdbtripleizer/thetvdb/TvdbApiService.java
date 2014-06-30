@@ -86,8 +86,17 @@ public class TvdbApiService {
 		return idList;
 
 	}
-
-	public TvShow findShow(String id) {
+	
+	public TvShow findShow(String query) {
+		List<String> matches = search(query);
+		if(matches == null || matches.isEmpty())
+			return null;
+		String id = matches.get(0);
+		return getShow(id);
+		
+	}
+	
+	public TvShow getShow(String id) {
 		WebTarget target = staticInterface().path("series").path(id)
 				.path("en.xml");
 		ApiResponse response = loadOrRequest(target);
