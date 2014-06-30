@@ -1,6 +1,7 @@
 package com.github.svenwltr.thetvdbtripleizer.controller;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -39,7 +40,7 @@ public class SearchController {
 
 			Model model = ModelFactory.createDefaultModel();
 
-			Resource queryResource = model.createResource(TVDB_NS + query);
+			Resource queryResource = model.createResource(TVDB_NS + URLEncoder.encode(query, "UTF-8"));
 			Resource showResource = model.createResource(TVDB_ID_NS + show.id);
 
 			queryResource.addProperty(Ontology.matchesProperty, showResource);
